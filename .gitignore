@@ -3,6 +3,25 @@ target
 .project
 .settings
 /bin
-.idea
-.iml
+
 .mvn
+
+# Ignore Eclipse project files
+.project
+.settings
+.classpath
+
+# Ignore IDEA project files
+*.ipr
+*.iml
+*.iws
+.idea/
+
+# Ignore editor temporary files
+*.swp
+~*
+*~
+.*~
+
+# Ignore OS hidden files
+.DS_Store
