@@ -1,0 +1,6 @@
+logging:
+  level:
+    root: INFO
+
+drshadow:
+  enabled: false

@@ -1,0 +1,22 @@
+logging:
+  level:
+    root: INFO
+
+drshadow:
+  enabled: true
+  ssl: false
+  percentage: 10
+  custom-headers:
+    testHeader: "1234"
+  forward-headers:
+    - "x-cookie"
+  hosts:
+    - "localhost:8080"
+  invoker-core-pool-size: 5
+  http-core-pool-size: 5
+  http-connection-timeout-ms: 1000
+  http-read-timeout-ms: 500
+  inclusion-patterns:
+    - requestURI: "^/get*"
+      method: "GET"
+
