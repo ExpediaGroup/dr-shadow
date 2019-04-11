@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-version>1.8</java-version>
         <slf4jVersion>1.6.1</slf4jVersion>
-        <org.fasterxml.jackson>2.9.4</org.fasterxml.jackson>
+        <org.fasterxml.jackson>2.9.8</org.fasterxml.jackson>
         <org.springframework.boot.version>1.5.19.RELEASE</org.springframework.boot.version>
         <org.springframework.web.version>5.0.9.RELEASE</org.springframework.web.version>
     </properties>
