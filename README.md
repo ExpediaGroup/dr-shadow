@@ -1,5 +1,6 @@
 # Dr Shadow 
 ![License](https://img.shields.io/hexpm/l/plug.svg)
+[![Build Status](https://travis-ci.org/egencia/dr-shadow.svg?branch=master)](https://travis-ci.org/egencia/dr-shadow)
 
 Dr Shadow is a library developed by Egencia (part of Expedia Group) that enables shadow traffic (ie. mirroring). It is a valuable tool for having good hygiene for service operations (ie. testing, resiliency, performance).
 
