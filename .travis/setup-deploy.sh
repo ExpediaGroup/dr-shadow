@@ -8,7 +8,7 @@ fi
 
 echo "Verifying environment variables"
 
-SIGNING_VARS='SONATYPE_USERNAME SONATYPE_PASSWORD GPG_EXECUTABLE GPG_KEYNAME GPG_PASSPHRASE GPG_SECRETKEY GPG_OWNERTRUST'
+SIGNING_VARS='SONATYPE_USERNAME SONATYPE_PASSWORD GPG_EXECUTABLE GPG_KEYNAME GPG_PASSPHRASE'
 for var in ${SIGNING_VARS[@]}
 do
     if [ -z ${!var} ] ; then
@@ -18,7 +18,7 @@ do
 done
 
 echo "Setting up env for deployment"
-openssl aes-256-cbc -K $encrypted_601c881f6a91_key -iv $encrypted_601c881f6a91_iv -in .travis/codesigning.asc.enc -out .travis/codesigning.asc -d
+openssl aes-256-cbc -K $encrypted_74e79bd2c10b_key -iv $encrypted_74e79bd2c10b_iv -in .travis/codesigning.asc.enc -out .travis/codesigning.asc -d
 if [ $? -ne 0 ] ; then
 	echo "Unable to process gpg keys cannot sign"
 	exit 1
