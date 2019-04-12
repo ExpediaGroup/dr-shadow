@@ -122,7 +122,7 @@ public class ShadowTrafficAdapter {
             String key = (String) headerNames.nextElement();
             String value = request.getHeader(key);
             if (CollectionUtils.isNotEmpty(forwardOnlyHeaders) &&
-                    forwardOnlyHeaders.stream().anyMatch(s -> key.equalsIgnoreCase(s))) {
+                    forwardOnlyHeaders.stream().anyMatch(key::equalsIgnoreCase)) {
                 headers.add(key, value);
             }
         }
