@@ -21,5 +21,5 @@ deploy:
   script: .travis/release.sh
   on:
     tags: true
-    jdk: oraclejdk8
+    jdk: openjdk8
     repo: egencia/dr-shadow
