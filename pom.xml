@@ -7,6 +7,51 @@
     <name>dr-shadow-parent</name>
     <artifactId>dr-shadow-parent</artifactId>
     <version>1.0.0</version>
+    
+    <description>Shadow traffic library for Spring Boot applications</description>
+    <url>https://github.com/egencia/dr-shadow</url>
+
+    <licenses>
+       <license>
+           <name>The Apache Software License, Version 2.0</name>
+           <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+           <distribution>repo</distribution>
+       </license>
+    </licenses>
+
+    <scm>
+       <url>https://github.com/egencia/dr-shadow</url>
+       <connection>scm:git:ssh://git@github.com/egencia/dr-shadow.git</connection>
+       <developerConnection>scm:git:ssh://git@github.com/egencia/dr-shadow.git</developerConnection>
+       <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+       <developer>
+           <name>Carlson Tse</name>
+           <email>ctse@expediagroup.com</email>
+           <organization>ExpediaGroup</organization>
+           <organizationUrl>https://www.egencia.com</organizationUrl>
+       </developer>
+       <developer>
+           <name>Amruta Gundeli</name>
+           <email>agundeli@egencia.com</email>
+           <organization>Egencia</organization>
+           <organizationUrl>https://www.egencia.com</organizationUrl>
+       </developer>
+       <developer>
+           <name>Tunde Adegbola</name>
+           <email>aadegbola@egencia.com</email>
+           <organization>Egencia</organization>
+           <organizationUrl>https://www.egencia.com</organizationUrl>
+       </developer>
+       <developer>
+           <name>Surender Rawat</name>
+           <email>surawat@egencia.com</email>
+           <organization>Egencia</organization>
+           <organizationUrl>https://www.egencia.com</organizationUrl>
+       </developer>
+    </developers>
 
     <modules>
         <module>dr-shadow-acceptance-tests</module>
