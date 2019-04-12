@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <name>dr-shadow-parent</name>
     <artifactId>dr-shadow-parent</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <description>Shadow traffic library for Spring Boot applications</description>
     <url>https://github.com/egencia/dr-shadow</url>

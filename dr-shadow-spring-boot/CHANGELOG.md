@@ -7,10 +7,14 @@
 ### Changed
 ### Removed
 ```
-## [1.0.1](link_to_jar) - 2019-04-12 
+## [1.0.2](link_to_jar) - 2019-04-12
+### Added
+- Fix getting all the versions lined up as 1.0.2
+
+## [1.0.1](link_to_jar) - 2019-04-12
 ### Added
 - Added Apache headers to all files using HCOM OSS plugin and fixed some javadoc
 
-## [1.0.0](link_to_jar) - 2019-04-11 
+## [1.0.0](link_to_jar) - 2019-04-11
 ### Added
 - Initial release of Dr Shadow Spring Boot
