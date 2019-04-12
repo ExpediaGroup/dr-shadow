@@ -18,4 +18,8 @@ deploy:
   provider: script
   # skip_cleanup is to keep the artifacts from the build phase
   skip_cleanup: true
-  script: mvn -DskipTests -Psigned -B deploy
+  script: .travis/release.sh
+  on:
+    tags: true
+    jdk: oraclejdk8
+    repo: egencia/dr-shadow
