@@ -18,7 +18,7 @@ deploy:
   provider: script
   # skip_cleanup is to keep the artifacts from the build phase
   skip_cleanup: true
-  script: .travis/release.sh
+  script: bash ./.travis/release.sh
   on:
     tags: true
     jdk: openjdk8
