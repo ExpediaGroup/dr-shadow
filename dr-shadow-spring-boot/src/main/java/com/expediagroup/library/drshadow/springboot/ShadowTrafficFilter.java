@@ -1,3 +1,18 @@
+/**
+ * Copyright (C) 2019 Expedia, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.expediagroup.library.drshadow.springboot;
 
 import java.io.IOException;
@@ -44,9 +59,9 @@ public class ShadowTrafficFilter extends OncePerRequestFilter {
      * Does not filter if: 1. The servlet path does not match the inclusion configuration. 2. The configuration has shadow traffic disabled. 3. The request
      * itself already came from shadow traffic.
      * 
-     * @param request
-     * @return
-     * @throws ServletException
+     * @param request Original HttpServletRequest
+     * @return boolean Indicate whether this request should be shadowed or not
+     * @throws ServletException ServletException
      */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -126,11 +141,11 @@ public class ShadowTrafficFilter extends OncePerRequestFilter {
     /**
      * Invoke shadow traffic asynchronously and continue the chain
      * 
-     * @param request
-     * @param response
-     * @param chain
-     * @throws ServletException
-     * @throws IOException
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param chain FilterChain
+     * @throws ServletException ServletException
+     * @throws IOException IOException
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {

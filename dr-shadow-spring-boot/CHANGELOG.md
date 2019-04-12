@@ -7,7 +7,10 @@
 ### Changed
 ### Removed
 ```
+## [1.0.1](link_to_jar) - 2019-04-12 
+### Added
+- Added Apache headers to all files using HCOM OSS plugin and fixed some javadoc
 
-## [1.0.0](link_to_jar) - 2019-XX-XX 
+## [1.0.0](link_to_jar) - 2019-04-11 
 ### Added
 - Initial release of Dr Shadow Spring Boot

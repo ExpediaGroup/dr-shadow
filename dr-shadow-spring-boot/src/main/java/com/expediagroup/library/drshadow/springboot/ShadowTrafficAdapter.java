@@ -1,3 +1,18 @@
+/**
+ * Copyright (C) 2019 Expedia, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.expediagroup.library.drshadow.springboot;
 
 import org.apache.commons.codec.CharEncoding;
@@ -50,9 +65,9 @@ public class ShadowTrafficAdapter {
 
     /**
      *
-     * @param shadowTrafficConfigHelper
-     * @param restTemplate
-     * @param machineName
+     * @param shadowTrafficConfigHelper Configuration helper
+     * @param restTemplate Rest Template to make the shadow requests
+     * @param machineName Machine name used for adding a header on where the shadow traffic came from
      */
     public ShadowTrafficAdapter(ShadowTrafficConfigHelper shadowTrafficConfigHelper, AsyncRestTemplate restTemplate, String machineName) {
         this.shadowTrafficConfigHelper = shadowTrafficConfigHelper;
@@ -63,7 +78,7 @@ public class ShadowTrafficAdapter {
 
     /**
      * Only used for unit testing to manipulate the randomization
-     * @param random
+     * @param random Random instance for generating random number for tests
      */
     protected void setRandom(Random random) {
         this.random = random;
@@ -151,7 +166,7 @@ public class ShadowTrafficAdapter {
      * disappear when the original request is completed.
      *
      * @param drShadowHttpServletRequest - Initial incoming request configured to invoke shadow traffic
-     * @param originalHttpServletRequest 
+     * @param originalHttpServletRequest  - Original http servlet request
      */
     @Async("shadowTrafficTaskExecutor")
     public void invokeShadowTraffic(DrShadowHttpServletRequest drShadowHttpServletRequest, HttpServletRequest originalHttpServletRequest) {
