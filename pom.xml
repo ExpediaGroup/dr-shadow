@@ -7,7 +7,7 @@
     <name>dr-shadow-parent</name>
     <artifactId>dr-shadow-parent</artifactId>
     <version>1.0.0</version>
-    
+
     <description>Shadow traffic library for Spring Boot applications</description>
     <url>https://github.com/egencia/dr-shadow</url>
 
@@ -66,6 +66,10 @@
         <org.fasterxml.jackson>2.9.8</org.fasterxml.jackson>
         <org.springframework.boot.version>1.5.19.RELEASE</org.springframework.boot.version>
         <org.springframework.web.version>5.0.9.RELEASE</org.springframework.web.version>
+        <hotels.oss.plugin.config.version>1.2.2</hotels.oss.plugin.config.version>
+        <license.maven.plugin.version>3.0</license.maven.plugin.version>
+        <buildnumber.maven.plugin.version>1.4</buildnumber.maven.plugin.version>
+        <maven.dependency.plugin.version>3.1.1</maven.dependency.plugin.version>
     </properties>
 
     <dependencies>
@@ -185,7 +189,141 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- This is for generating Apache license headers -->
+            <!-- used to determine the current year -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-dependency-plugin</artifactId>
+              <version>${maven.dependency.plugin.version}</version>
+              <executions>
+                <execution>
+                  <id>unpack</id>
+                  <phase>validate</phase>
+                  <goals>
+                    <goal>unpack</goal>
+                  </goals>
+                  <configuration>
+                    <artifactItems>
+                      <artifactItem>
+                        <groupId>com.hotels</groupId>
+                        <artifactId>hotels-oss-plugin-config</artifactId>
+                        <version>${hotels.oss.plugin.config.version}</version>
+                        <type>jar</type>
+                        <overWrite>false</overWrite>
+                        <outputDirectory>${project.build.directory}/plugin-config</outputDirectory>
+                      </artifactItem>
+                    </artifactItems>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>buildnumber-maven-plugin</artifactId>
+              <version>${buildnumber.maven.plugin.version}</version>
+              <executions>
+                <execution>
+                  <phase>validate</phase>
+                  <goals>
+                    <goal>create-timestamp</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                <timestampFormat>yyyy</timestampFormat>
+                <timestampPropertyName>current.year</timestampPropertyName>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>com.mycila</groupId>
+              <artifactId>license-maven-plugin</artifactId>
+              <version>${license.maven.plugin.version}</version>
+              <dependencies>
+                <dependency>
+                  <groupId>com.hotels</groupId>
+                  <artifactId>hotels-oss-plugin-config</artifactId>
+                  <version>${hotels.oss.plugin.config.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>com.mycila</groupId>
+                  <artifactId>license-maven-plugin-git</artifactId>
+                  <version>${license.maven.plugin.version}</version>
+                </dependency>
+              </dependencies>
+              <configuration>
+                <header>file://${project.build.directory}/plugin-config/mycila/APACHE-2.txt</header>
+                <headerDefinitions>
+                  <headerDefinition>file://${project.build.directory}/plugin-config/mycila/hotels-definitions.xml</headerDefinition>
+                </headerDefinitions>
+                <properties>
+                  <owner>Expedia, Inc.</owner>
+                  <currentYear>${current.year}</currentYear>
+                </properties>
+                <includes>
+                  <include>src/main/java/**</include>
+                  <include>src/main/resources/*.xml</include>
+                  <include>src/test/java/**</include>
+                  <include>src/test/resources/*.xml</include>
+                </includes>
+              </configuration>
+              <executions>
+                <execution>
+                  <phase>validate</phase>
+                  <goals>
+                    <goal>format</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
         </plugins>
+
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.m2e</groupId>
+              <artifactId>lifecycle-mapping</artifactId>
+              <version>${lifecycle.mapping.version}</version>
+              <configuration>
+                <lifecycleMappingMetadata>
+                  <pluginExecutions>
+
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>buildnumber-maven-plugin</artifactId>
+                        <versionRange>${buildnumber.maven.plugin.version}</versionRange>
+                        <goals>
+                          <goal>create-timestamp</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <execute>
+                          <runOnConfiguration>true</runOnConfiguration>
+                          <runOnIncremental>true</runOnIncremental>
+                        </execute>
+                      </action>
+                    </pluginExecution>
+
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <versionRange>${license.maven.plugin.version}</versionRange>
+                        <goals>
+                          <goal>format</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <execute />
+                      </action>
+                    </pluginExecution>
+
+                  </pluginExecutions>
+                </lifecycleMappingMetadata>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
