@@ -1,5 +1,5 @@
 /**
- * Copyright (C) ${license.git.copyrightYears} Expedia, Inc.
+ * Copyright (C) 2019 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,9 +65,9 @@ public class ShadowTrafficAdapter {
 
     /**
      *
-     * @param shadowTrafficConfigHelper
-     * @param restTemplate
-     * @param machineName
+     * @param shadowTrafficConfigHelper Configuration helper
+     * @param restTemplate Rest Template to make the shadow requests
+     * @param machineName Machine name used for adding a header on where the shadow traffic came from
      */
     public ShadowTrafficAdapter(ShadowTrafficConfigHelper shadowTrafficConfigHelper, AsyncRestTemplate restTemplate, String machineName) {
         this.shadowTrafficConfigHelper = shadowTrafficConfigHelper;
@@ -78,7 +78,7 @@ public class ShadowTrafficAdapter {
 
     /**
      * Only used for unit testing to manipulate the randomization
-     * @param random
+     * @param random Random instance for generating random number for tests
      */
     protected void setRandom(Random random) {
         this.random = random;
@@ -166,7 +166,7 @@ public class ShadowTrafficAdapter {
      * disappear when the original request is completed.
      *
      * @param drShadowHttpServletRequest - Initial incoming request configured to invoke shadow traffic
-     * @param originalHttpServletRequest 
+     * @param originalHttpServletRequest  - Original http servlet request
      */
     @Async("shadowTrafficTaskExecutor")
     public void invokeShadowTraffic(DrShadowHttpServletRequest drShadowHttpServletRequest, HttpServletRequest originalHttpServletRequest) {

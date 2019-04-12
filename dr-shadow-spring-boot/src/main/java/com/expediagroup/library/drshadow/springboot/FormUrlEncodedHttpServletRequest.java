@@ -1,5 +1,5 @@
 /**
- * Copyright (C) ${license.git.copyrightYears} Expedia, Inc.
+ * Copyright (C) 2019 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,8 @@ public class FormUrlEncodedHttpServletRequest extends DrShadowHttpServletRequest
 
     /**
      *
-     * @param request
-     * @throws IOException
+     * @param request Original http servlet request
+     * @throws IOException IOException
      */
     public FormUrlEncodedHttpServletRequest(HttpServletRequest request) throws IOException {
         super(request);

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) ${license.git.copyrightYears} Expedia, Inc.
+ * Copyright (C) 2019 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +30,9 @@ public class DrShadowHttpServletRequestFactory {
 	
 	/**
 	 * Returns the DrShadowHttpServletRequest constructed from HttpServletRequest
-	 * @param httpServletRequest
-	 * @return
-	 * @throws IOException
+	 * @param httpServletRequest Original servlet request
+	 * @return Newly wrapped request shadow request
+	 * @throws IOException IOException
 	 */
     public DrShadowHttpServletRequest getHttpServletRequest(HttpServletRequest httpServletRequest) throws IOException {
         if (isFormUrlEncoded(httpServletRequest)) {

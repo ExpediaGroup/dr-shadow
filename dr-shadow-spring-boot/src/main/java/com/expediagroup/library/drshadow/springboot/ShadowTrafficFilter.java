@@ -1,5 +1,5 @@
 /**
- * Copyright (C) ${license.git.copyrightYears} Expedia, Inc.
+ * Copyright (C) 2019 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,9 +59,9 @@ public class ShadowTrafficFilter extends OncePerRequestFilter {
      * Does not filter if: 1. The servlet path does not match the inclusion configuration. 2. The configuration has shadow traffic disabled. 3. The request
      * itself already came from shadow traffic.
      * 
-     * @param request
-     * @return
-     * @throws ServletException
+     * @param request Original HttpServletRequest
+     * @return boolean Indicate whether this request should be shadowed or not
+     * @throws ServletException ServletException
      */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -141,11 +141,11 @@ public class ShadowTrafficFilter extends OncePerRequestFilter {
     /**
      * Invoke shadow traffic asynchronously and continue the chain
      * 
-     * @param request
-     * @param response
-     * @param chain
-     * @throws ServletException
-     * @throws IOException
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param chain FilterChain
+     * @throws ServletException ServletException
+     * @throws IOException IOException
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
