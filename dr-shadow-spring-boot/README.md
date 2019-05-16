@@ -77,9 +77,9 @@ List of Strings - Only these items will be copied from original request to shado
 1. Add dependency
 ```xml
 <dependency>
-   <groupId>com.expediagroup.library</groupId>
+   <groupId>com.expediagroup</groupId>
    <artifactId>dr-shadow-spring-boot</artifactId>
-   <version><!--SPECIFY VERSION FROM CHANGELOG--></version>
+   <version><!--See here for latest versions: https://mvnrepository.com/artifact/com.expediagroup/dr-shadow-spring-boot--></version>
 </dependency>
 ```
 2. Add configuration to your Spring application.yaml/properties file.
