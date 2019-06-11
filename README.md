@@ -46,3 +46,8 @@ Example:
 git tag -a 1.0.1 -m "release 1.0.1"
 git push origin 1.0.1
 ```
+
+## Legal
+This project is available under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).
+
+Copyright 2016-2019 Expedia, Inc.
