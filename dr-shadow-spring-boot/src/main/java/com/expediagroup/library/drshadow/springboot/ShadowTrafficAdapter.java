@@ -179,7 +179,7 @@ public class ShadowTrafficAdapter {
             List<ListenableFuture<ResponseEntity<String>>> futures = new ArrayList<>();
 
             // Check whether shadow traffic is enabled and also generate a random number to see if it falls within percentage
-            if (shadowTrafficConfig != null && shadowTrafficConfig.isEnabled() && (random.nextInt(100) + 1) <= shadowTrafficConfig.getPercentage()) {
+            if (shadowTrafficConfig != null && (random.nextInt(100) + 1) <= shadowTrafficConfig.getPercentage()) {
 
                 if (drShadowHttpServletRequest == null) {
                     LOGGER.error("DrShadowHttpServletRequest is null. Shadow traffic will not be invoked.");
