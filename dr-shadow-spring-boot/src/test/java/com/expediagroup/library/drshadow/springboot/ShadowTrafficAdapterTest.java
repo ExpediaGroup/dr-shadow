@@ -92,21 +92,9 @@ public class ShadowTrafficAdapterTest {
     }
 
     @Test
-    public void testInvokeShadowTrafficWithConfigAsFalse_expectNoShadowTrafficPerformed() {
-
-        when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(false);
-
-        shadowTrafficAdapter.invokeShadowTraffic(shadowServletRequest, originalServletRequest);
-
-        verify(restTemplate, times(0)).exchange(any(), any(), any(), eq(String.class));
-    }
-
-    @Test
     public void testInvokeShadowTrafficWithRandomValueGreaterThanPercentageConfigured_expectNoShadowTrafficPerformed() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(51);
 
@@ -119,7 +107,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTrafficWithNullDrShadowServletRequest_expectNoShadowTrafficPerformed() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
 
@@ -132,7 +119,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTrafficWithNullOriginalRequest_expectNoShadowTrafficPerformed() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
 
@@ -145,7 +131,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTrafficWithNullMethod_expectNoShadowTrafficPerformed() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
         when(shadowServletRequest.getMethod()).thenReturn(null);
@@ -160,7 +145,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTraffic_withHttpsHost() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
         when(shadowServletRequest.getMethod()).thenReturn("GET");
@@ -190,7 +174,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTraffic_withHttpHost() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
         when(shadowServletRequest.getMethod()).thenReturn("GET");
@@ -220,7 +203,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTraffic_verifyOriginalUrlEncodedParamsDoesNotDoubleEncode() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
         when(shadowServletRequest.getMethod()).thenReturn("GET");
@@ -251,7 +233,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTraffic_verifyWithPostBody() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
         when(shadowServletRequest.getMethod()).thenReturn("GET");
@@ -283,7 +264,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTraffic_verifyWithCustomHeaders() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
         when(shadowServletRequest.getMethod()).thenReturn("GET");
@@ -319,7 +299,6 @@ public class ShadowTrafficAdapterTest {
     public void testInvokeShadowTraffic_verifyApplicationJsonUTF8Set() {
 
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
-        when(shadowTrafficConfig.isEnabled()).thenReturn(true);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
         when(shadowServletRequest.getMethod()).thenReturn("GET");
