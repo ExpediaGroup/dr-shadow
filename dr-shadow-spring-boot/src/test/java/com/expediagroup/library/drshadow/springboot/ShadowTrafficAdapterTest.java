@@ -237,7 +237,7 @@ public class ShadowTrafficAdapterTest {
         when(shadowTrafficConfigHelper.getConfig()).thenReturn(shadowTrafficConfig);
         when(shadowTrafficConfig.getPercentage()).thenReturn(50);
         when(random.nextInt(eq(100))).thenReturn(30);
-        when(shadowServletRequest.getMethod()).thenReturn("GET");
+        when(shadowServletRequest.getMethod()).thenReturn("POST");
         when(shadowTrafficConfig.getCustomHeaders()).thenReturn(new HashMap<>());
         when(shadowTrafficConfig.getForwardHeaders()).thenReturn(new ArrayList<>());
         when(shadowServletRequest.getBody()).thenReturn("testBody");
@@ -252,7 +252,7 @@ public class ShadowTrafficAdapterTest {
         UriComponentsBuilder uriCompBuilder = UriComponentsBuilder.fromHttpUrl("http://int-maui.karmalab.net/hotels?param=ab cd");
         URI expectedShadowUrl = uriCompBuilder.build().toUri();
 
-        verify(webClient, times(1)).method(eq(HttpMethod.GET));
+        verify(webClient, times(1)).method(eq(HttpMethod.POST));
         verify(requestBodyUriSpec, times(1)).uri(eq(expectedShadowUrl));
         verify(requestBodySpec, times(1)).headers(any(Consumer.class));
         verify(requestBodySpec, times(1)).syncBody(eq("testBody"));
