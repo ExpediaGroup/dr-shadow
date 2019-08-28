@@ -21,14 +21,13 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.web.client.AsyncRestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 
 /**
  * ShadowTrafficAdapter invokes the shadow traffic to the configured destination host(s) w/ the exact same incoming request.
@@ -57,8 +55,7 @@ public class ShadowTrafficAdapter {
     protected static final String HTTPS_PREFIX = "https://";
     private static Logger LOGGER = LoggerFactory.getLogger(ShadowTrafficAdapter.class);
 
-    //TODO: AsyncRestTemplate is deprecated for WebFlux in Spring 5
-    private final AsyncRestTemplate restTemplate;
+    private WebClient webClient;
     private final String machineName;
     private final ShadowTrafficConfigHelper shadowTrafficConfigHelper;
     private Random random;
@@ -66,14 +63,13 @@ public class ShadowTrafficAdapter {
     /**
      *
      * @param shadowTrafficConfigHelper Configuration helper
-     * @param restTemplate Rest Template to make the shadow requests
      * @param machineName Machine name used for adding a header on where the shadow traffic came from
      */
-    public ShadowTrafficAdapter(ShadowTrafficConfigHelper shadowTrafficConfigHelper, AsyncRestTemplate restTemplate, String machineName) {
+    public ShadowTrafficAdapter(ShadowTrafficConfigHelper shadowTrafficConfigHelper, String machineName) {
         this.shadowTrafficConfigHelper = shadowTrafficConfigHelper;
-        this.restTemplate = restTemplate;
         this.machineName = machineName;
         this.random = new Random();
+        this.webClient = WebClient.builder().build();
     }
 
     /**
@@ -82,6 +78,14 @@ public class ShadowTrafficAdapter {
      */
     protected void setRandom(Random random) {
         this.random = random;
+    }
+
+    /**
+     * Only used for unit testing
+     * @param webClient
+     */
+    protected void setWebClient(WebClient webClient) {
+        this.webClient = webClient;
     }
     
     /**
@@ -92,7 +96,7 @@ public class ShadowTrafficAdapter {
      * @param forwardOnlyHeaders - headers that need to be forwarded in shadow request
      * @return
      */
-    private HttpHeaders createHeaders(DrShadowHttpServletRequest request, Map<String, String> customHeaders, List<String> forwardOnlyHeaders) {
+    public HttpHeaders createHeaders(DrShadowHttpServletRequest request, Map<String, String> customHeaders, List<String> forwardOnlyHeaders) {
         HttpHeaders headers = getHeaders(request, forwardOnlyHeaders);
         headers.add(IS_SHADOW_TRAFFIC_KEY, IS_SHADOW_TRAFFIC_VALUE);
         headers.add(SHADOW_TRAFFIC_FROM_KEY, machineName);
@@ -134,25 +138,6 @@ public class ShadowTrafficAdapter {
         if (MediaType.APPLICATION_JSON.equals(headers.getContentType())) {
             headers.remove(HttpHeaders.CONTENT_TYPE);
             headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        }
-    }
-
-    private void processFuturesByIgnoringThem(List<ListenableFuture<ResponseEntity<String>>> futures) {
-        if (CollectionUtils.isEmpty(futures)) {
-            // if no futures were generated, return
-            return;
-        }
-
-        for (ListenableFuture<ResponseEntity<String>> future : futures) {
-            // don't really care what we got back from the shadow traffic
-            try {
-                future.get();
-            } catch (ExecutionException executionException) {
-                LOGGER.debug("ExecutionException() ", executionException);
-            } catch (Exception ex) {
-                // This is to prevent flooding of the shadow traffic logs in the service
-                LOGGER.debug("Shadow traffic call failed.", ex);
-            }
         }
     }
     
@@ -236,19 +221,15 @@ public class ShadowTrafficAdapter {
                     UriComponentsBuilder uriCompBuilder = UriComponentsBuilder.fromHttpUrl(urlDecodedStr);
                     URI shadowUrl = uriCompBuilder.build().toUri();
 
-                    String postBody = drShadowHttpServletRequest.getBody();
-
-                    HttpEntity<String> httpEntity = new HttpEntity<>(postBody,
-                            createHeaders(drShadowHttpServletRequest, shadowTrafficConfig.getCustomHeaders(), shadowTrafficConfig.getForwardHeaders()));
-
                     LOGGER.info("Forwarding shadow traffic url: {} to host: {}", shadowUrl, host);
-                    // we never care about the response of shadow traffic
-                    ListenableFuture<ResponseEntity<String>> future = restTemplate.exchange(shadowUrl, drShadowRequestHttpMethod, httpEntity, String.class);
-                    futures.add(future);
-                }
 
-                // clean up by ignoring the futures
-                processFuturesByIgnoringThem(futures);
+                    webClient
+                            .method(drShadowRequestHttpMethod)
+                            .uri(shadowUrl)
+                            .headers(createHeaders(drShadowHttpServletRequest, shadowTrafficConfig.getCustomHeaders(), shadowTrafficConfig.getForwardHeaders())::addAll)
+                            .syncBody(drShadowHttpServletRequest.getBody())
+                            .retrieve();
+                }
             }
         } catch (Exception ex) {
             LOGGER.warn("Invoking shadow traffic failed", ex);

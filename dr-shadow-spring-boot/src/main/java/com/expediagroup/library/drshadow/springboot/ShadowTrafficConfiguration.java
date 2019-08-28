@@ -18,7 +18,6 @@ package com.expediagroup.library.drshadow.springboot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,10 +27,8 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.web.client.AsyncRestTemplate;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -68,9 +65,8 @@ public class ShadowTrafficConfiguration {
     }
 
     @Bean
-    public ShadowTrafficAdapter shadowTrafficAdapter(@Qualifier("shadowRestTemplate") AsyncRestTemplate shadowRestTemplate,
-            ShadowTrafficConfigHelper shadowTrafficConfigHelper) {
-        return new ShadowTrafficAdapter(shadowTrafficConfigHelper, shadowRestTemplate, getMachineName());
+    public ShadowTrafficAdapter shadowTrafficAdapter(ShadowTrafficConfigHelper shadowTrafficConfigHelper) {
+        return new ShadowTrafficAdapter(shadowTrafficConfigHelper, getMachineName());
     }
     
     @Bean
@@ -124,30 +120,7 @@ public class ShadowTrafficConfiguration {
         threadPool.initialize();
         return threadPool;
     }
-    
-    @Bean
-    public AsyncRestTemplate shadowRestTemplate(ThreadPoolTaskExecutor shadowRestTemplateTaskExecutor, ShadowTrafficConfigHelper shadowTrafficConfigHelper) {
-        
-        SimpleClientHttpRequestFactory clientHttpRequestFactory = new SimpleClientHttpRequestFactory();
-        clientHttpRequestFactory.setTaskExecutor(shadowRestTemplateTaskExecutor);
-        // No need for this to be configurable because we ignore the response anyways
-        
-        ShadowTrafficConfig shadowTrafficConfig = shadowTrafficConfigHelper.getConfig();
-        
-        int httpConnectionTimeoutMs = SHADOW_TRAFFIC_HTTP_CONNECTION_TIMEOUT;
-        int httpReadTimeoutMs = SHADOW_TRAFFIC_HTTP_READ_TIMEOUT;
-        
-        if (shadowTrafficConfig != null) {
-            httpConnectionTimeoutMs = shadowTrafficConfig.getHttpConnectionTimeoutMs();
-            httpReadTimeoutMs = shadowTrafficConfig.getHttpReadTimeoutMs();
-        }
-        
-        clientHttpRequestFactory.setConnectTimeout(httpConnectionTimeoutMs);
-        clientHttpRequestFactory.setReadTimeout(httpReadTimeoutMs);
-        
-        return new AsyncRestTemplate(clientHttpRequestFactory);
-    }
-    
+
     @Bean
     public ShadowTrafficFilter shadowTrafficFilter(ShadowTrafficAdapter shadowTrafficAdapter, ShadowTrafficConfigHelper shadowTrafficConfigHelper) {
         return new ShadowTrafficFilter(shadowTrafficConfigHelper, shadowTrafficAdapter);

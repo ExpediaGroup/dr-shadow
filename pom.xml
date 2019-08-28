@@ -66,8 +66,8 @@
         <java-version>1.8</java-version>
         <slf4jVersion>1.6.1</slf4jVersion>
         <org.fasterxml.jackson>2.9.8</org.fasterxml.jackson>
-        <org.springframework.boot.version>1.5.19.RELEASE</org.springframework.boot.version>
-        <org.springframework.web.version>5.0.9.RELEASE</org.springframework.web.version>
+        <org.springframework.boot.version>2.1.7.RELEASE</org.springframework.boot.version>
+        <org.springframework.web.version>5.1.9.RELEASE</org.springframework.web.version>
         <hotels.oss.plugin.config.version>1.2.2</hotels.oss.plugin.config.version>
         <license.maven.plugin.version>3.0</license.maven.plugin.version>
         <buildnumber.maven.plugin.version>1.4</buildnumber.maven.plugin.version>
@@ -100,6 +100,22 @@
             <artifactId>spring-web</artifactId>
             <version>${org.springframework.web.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${org.springframework.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor.ipc</groupId>
+            <artifactId>reactor-netty</artifactId>
+            <version>0.7.15.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework.web.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
