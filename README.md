@@ -38,6 +38,22 @@ For example, let's say you have one machine in Canary/Pre-Prod and 10 machines i
 * The header *is-shadow-traffic*: *true* is added for all shadow traffic to prevent infinite looping.
 * All custom headers are pre-pended with *shadow-traffic-* to prevent any collisions with existing headers.
 
+## Building
+
+To build Dr Shadow you need to have Java 8 installed. Maven is optional as you can use the Maven Wrapper provided. 
+
+To compile and run unit tests (Linux or Mac):
+
+    ./mvnw clean verify
+    
+or (Windows):
+
+    ./mvnw.cmd clean verify
+
+Alternatively we also provide a makefile
+
+    make test
+
 ## Release
 * Update all modules pom.xml to have new versions
 * Once PR approved and merged to master, tag the release.
