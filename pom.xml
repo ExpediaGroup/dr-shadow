@@ -65,7 +65,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-version>1.8</java-version>
         <slf4jVersion>1.6.1</slf4jVersion>
-        <org.fasterxml.jackson>2.10.0</org.fasterxml.jackson>
+        <org.fasterxml.jackson>2.12.6.1</org.fasterxml.jackson>
         <org.springframework.boot.version>2.1.7.RELEASE</org.springframework.boot.version>
         <org.springframework.web.version>5.1.13.RELEASE</org.springframework.web.version>
         <hotels.oss.plugin.config.version>1.2.2</hotels.oss.plugin.config.version>
